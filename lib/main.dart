@@ -1,8 +1,34 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pidegas_app/pedidos.dart';
+import 'package:pidegas_app/home.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(
+    const MaterialApp(
+      home: MyApp(),
+    ),
+  );
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => const Pedidos(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return child;
+    },
+  );
+}
+
+Route _createRouteHome() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => const Home(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return child;
+    },
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -75,16 +101,19 @@ class _MyHomePageState extends State<MyHomePage> {
           Image.file(File(
               '/home/wibarra/Documentos/Flutter/pidegas_app_test/web/icons/pidegas.jpeg')),
           ListTile(
+            leading: Icon(Icons.add_shopping_cart),
             title: const Text('Mis Pedidos'),
             selected: _selectedIndex == 0,
             onTap: () {
+              //Page1();
               // Update the state of the app
               _onItemTapped(0);
               // Then close the drawer
-              Navigator.pop(context);
+              Navigator.of(context).push(_createRoute());
             },
           ),
           ListTile(
+            leading: Icon(Icons.payment),
             title: const Text('Confirmación de Pago'),
             selected: _selectedIndex == 1,
             onTap: () {
@@ -95,16 +124,18 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           ListTile(
+            leading: Icon(Icons.add_home),
             title: const Text('Mi Cuenta'),
             selected: _selectedIndex == 2,
             onTap: () {
               // Update the state of the app
               _onItemTapped(2);
               // Then close the drawer
-              Navigator.pop(context);
+              Navigator.of(context).push(_createRouteHome());
             },
           ),
           ListTile(
+            leading: Icon(Icons.add_shopping_cart),
             title: const Text('Facturación'),
             selected: _selectedIndex == 2,
             onTap: () {
@@ -115,7 +146,19 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           ListTile(
+            leading: Icon(Icons.account_circle),
             title: const Text('Contactanos'),
+            selected: _selectedIndex == 2,
+            onTap: () {
+              // Update the state of the app
+              _onItemTapped(2);
+              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: const Text('Cerrar Sesión'),
             selected: _selectedIndex == 2,
             onTap: () {
               // Update the state of the app
@@ -129,6 +172,10 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ElevatedButton(
               onPressed: _closeDrawer,
               child: const Text('Close Drawer'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll<Color>(
+                    Color.fromRGBO(102, 102, 100, 0)),
+              ),
             ),
           ),
         ],
